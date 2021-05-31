@@ -157,16 +157,16 @@ class BannerAdEventHandler extends Ad {
   Future<dynamic> handle(MethodCall call) {
     switch (call.method) {
       case "onAdLoaded":
-        onAdLoaded ?? (ad) {}(this);
+        onAdLoaded?.call(this);
         break;
       case "onAdClicked":
-        onAdClicked ?? (ad) {}(this);
+        onAdClicked?.call(this);
         break;
       case "onAdLoadFailed":
-        onAdLoadFailed ?? (ad, err) {}(this, call.arguments as int);
+        onAdLoadFailed?.call(this, call.arguments as int);
         break;
       case "onAdShowFailed":
-        onAdShowFailed ?? (ad, err) {}(this, call.arguments as int);
+        onAdShowFailed?.call(this, call.arguments as int);
         break;
     }
     return true as dynamic;
@@ -258,22 +258,22 @@ class InterstitialAdEvenHandler extends Ad {
   Future<dynamic> handle(MethodCall call) {
     switch (call.method) {
       case "onAdLoaded":
-        onAdLoaded ?? (ad) {}(this);
+        onAdLoaded?.call(this);
         break;
       case "onAdClicked":
-        onAdClicked ?? (ad) {}(this);
+        onAdClicked?.call(this);
         break;
       case "onAdLoadFailed":
-        onAdLoadFailed ?? (ad, err) {}(this, call.arguments as int);
+        onAdLoadFailed?.call(this, call.arguments as int);
         break;
       case "onAdShowFailed":
-        onAdShowFailed ?? (ad, err) {}(this, call.arguments as int);
+        onAdShowFailed?.call(this, call.arguments as int);
         break;
       case "onAdShown":
-        onAdShown ?? (ad) {}(this);
+        onAdShown?.call(this);
         break;
       case "onAdClosed":
-        onAdClosed ?? (ad) {}(this);
+        onAdClosed?.call(this);
         break;
     }
     return true as dynamic;
@@ -321,13 +321,13 @@ class RewardedAd {
     _handler = new RewardedAdEventHandler(
         id: id,
         placementId: placementId,
-        onAdLoadFailed: onAdLoadFailed ?? (ad, err) {},
-        onAdShowFailed: onAdShowFailed ?? (ad, err) {},
-        onAdClicked: onAdClicked ?? (ad) {},
-        onAdLoaded: onAdLoaded ?? (ad) {},
-        onAdClosed: onAdClosed ?? (ad) {},
-        onAdShown: onAdShown ?? (ad) {},
-        onAdRewarded: onAdRewarded ?? (ad) {});
+        onAdLoadFailed: onAdLoadFailed,
+        onAdShowFailed: onAdShowFailed,
+        onAdClicked: onAdClicked,
+        onAdLoaded: onAdLoaded,
+        onAdClosed: onAdClosed,
+        onAdShown: onAdShown,
+        onAdRewarded: onAdRewarded);
     _handler.openChannel();
     _handler.loadAd();
   }
@@ -367,6 +367,7 @@ class RewardedAdEventHandler extends Ad {
   late MethodChannel _channel;
 
   void openChannel() {
+    print("opening channel");
     _channel = new MethodChannel("adivery/rewarded_" + id);
     _channel.setMethodCallHandler(handle);
   }
@@ -374,25 +375,25 @@ class RewardedAdEventHandler extends Ad {
   Future<dynamic> handle(MethodCall call) {
     switch (call.method) {
       case "onAdLoaded":
-        onAdLoaded ?? (ad) {}(this);
+        onAdLoaded?.call(this);
         break;
       case "onAdClicked":
-        onAdClicked ?? (ad) {}(this);
+        onAdClicked?.call(this);
         break;
       case "onAdLoadFailed":
-        onAdLoadFailed ?? (ad, err) {}(this, call.arguments as int);
+        onAdLoadFailed?.call(this, call.arguments as int);
         break;
       case "onAdShowFailed":
-        onAdShowFailed ?? (ad, err) {}(this, call.arguments as int);
+        onAdShowFailed?.call(this, call.arguments as int);
         break;
       case "onAdShown":
-        onAdShown ?? (ad) {}(this);
+        onAdShown?.call(this);
         break;
       case "onAdClosed":
-        onAdClosed ?? (ad) {}(this);
+        onAdClosed?.call(this);
         break;
       case "onAdRewarded":
-        onAdRewarded ?? (ad) {}(this);
+        onAdRewarded?.call(this);
         break;
     }
     return true as dynamic;
@@ -459,7 +460,7 @@ class NativeAd {
           }
           isLoaded = true;
 
-          onAdLoaded ?? () {}();
+          onAdLoaded?.call();
         },
         onAdShown: onAdShown,
         onAdClosed: onAdClosed,
@@ -512,22 +513,22 @@ class NativeAdEventHandler {
   Future<dynamic> handle(MethodCall call) {
     switch (call.method) {
       case "onAdLoaded":
-        onAdLoaded ?? (ad) {}(call.arguments);
+        onAdLoaded?.call(call.arguments);
         break;
       case "onAdClicked":
-        onAdClicked ?? () {}();
+        onAdClicked?.call();
         break;
       case "onAdLoadFailed":
-        onAdLoadFailed ?? (ad) {}(call.arguments as int);
+        onAdLoadFailed?.call(call.arguments as int);
         break;
       case "onAdShowFailed":
-        onAdShowFailed ?? (ad) {}(call.arguments as int);
+        onAdShowFailed?.call(call.arguments as int);
         break;
       case "onAdShown":
-        onAdShown ?? () {}();
+        onAdShown?.call();
         break;
       case "onAdClosed":
-        onAdClosed ?? () {}();
+        onAdClosed?.call();
         break;
     }
     return true as dynamic;
